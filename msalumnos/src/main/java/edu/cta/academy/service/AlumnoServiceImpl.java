@@ -2,6 +2,7 @@ package edu.cta.academy.service;
 
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,9 +54,25 @@ public class AlumnoServiceImpl implements AlumnoService{
 	@Transactional
 	public Optional<Alumno> modificarPorId(Alumno alumno, Long id) {
 		
-		 Optional <Alumno> alumnoNew = alumnoRepository.findById(id);
+		 Optional <Alumno> optional = Optional.empty(); //Para no devolver null
+		 /**Leer registro que puede existir o no.
+		 Si existe actualizo, si no existe no hace nada*/
 		 
-		 return alumnoNew;
+		 optional = this.alumnoRepository.findById(id);
+		 
+		 if(optional.isPresent()) {
+			 //Actualizo todos los campos menos el id y la fecha
+			 Alumno alumnoLeido = optional.get();
+			 //alumnoLeido.setNombre(alumno.getNombre());
+			 //alumnoLeido está en estado Persistente -> si lo modifico, se modifica en la base de datos
+			 BeanUtils.copyProperties(alumno, alumnoLeido, "id","creadoEn");
+			 //this.alumnoRepository.save(alumnoLeido); No es encesario
+			 
+			 optional = Optional.of(alumnoLeido); //relleno
+		 }
+		 
+		 
+		 return optional;
 	}
 	
 }

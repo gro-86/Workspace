@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -86,7 +87,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Put
+
 	//Método para devolver un alumno que no esté en la base de datos (alumno de prueba)
 	@GetMapping("/obtener_alumno_test") //http://localhost:8085/alumno/obtener_alumno_test
 	public Alumno obtenerAlumnoTest() {
@@ -96,6 +97,25 @@ public class AlumnoController {
 		alumno = new Alumno(5l,"FERESTHTEH","LOPEZ","fere@oracle.es",18,LocalDateTime.now());
 		
 		return alumno;
+	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<?> modificarAlumno(@RequestBody Alumno alumno, @PathVariable Long id) {
+		
+		Optional<Alumno> oa = null; 
+		ResponseEntity<?> responseEntity = null;
+		oa = this.alumnoService.modificarPorId(alumno,id);
+	
+		if(oa.isEmpty()) {
+			responseEntity = ResponseEntity.noContent().build(); 
+		}else {
+			
+			Alumno alumno_modificado = oa.get();
+			responseEntity = ResponseEntity.ok(alumno_modificado);
+		}
+		
+		
+		return responseEntity;
 	}
 
 }
