@@ -23,8 +23,20 @@ public class Alumno {
 	private String email;
 	private int edad;
 	
+	public Alumno() {
+		
+	}
 	
-	
+	public Alumno(Long id, String nombre, String apellido, String email, int edad, LocalDateTime creadoEn) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.apellido = apellido;
+		this.email = email;
+		this.edad = edad;
+		this.creadoEn = creadoEn;
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -78,7 +90,7 @@ public class Alumno {
 	
 	@PrePersist //Antes de que se inserte un alumno, se ejecuta este método
 	private void generarFechaCreacion() {
-		this.creadoEn= LocalDateTime.now(); //Fecha y hora actual
-	};
+		this.creadoEn = LocalDateTime.now(); //Fecha y hora actual
+	}
 
 }
