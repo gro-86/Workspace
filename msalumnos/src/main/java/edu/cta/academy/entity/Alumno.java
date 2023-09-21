@@ -93,4 +93,12 @@ public class Alumno {
 		this.creadoEn = LocalDateTime.now(); //Fecha y hora actual
 	}
 
+	@Override
+	public String toString() {
+		return "Alumno [id=" + id + "\n, nombre=" + nombre + "\n, apellido=" + apellido + "\n, email=" + email + "\n, edad="
+				+ edad + "\n, creadoEn=" + creadoEn + "]";
+	}
+	
+	
+
 }
