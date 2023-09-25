@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**Para que el programa sepa que es un sumidero de excepciones. Se puede delimitar el paquete donde
 está escuchando.*/
 /** Todas las excepciones derivadas en el paquete edu.cta.academy se derivan a esta clase. */
+
 @RestControllerAdvice(basePackages = {"edu.cta.academy"}) 
 public class GestionExcepciones {
 	

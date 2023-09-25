@@ -1432,3 +1432,52 @@ msalumnosprofe/src/main/resources/application.properties
 	at org.eclipse.jgit.dircache.DirCacheCheckout.checkout(DirCacheCheckout.java:480)
 	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:289)
 	... 3 more
+
+!ENTRY org.eclipse.egit.core 4 0 2023-09-25 18:12:24.883
+!MESSAGE Pulling 1 repository
+!SUBENTRY 1 org.eclipse.egit.core 4 0 2023-09-25 18:12:24.883
+!MESSAGE Checkout conflict with files: 
+msalumnosprofe/src/main/resources/application.properties
+!STACK 0
+org.eclipse.jgit.api.errors.CheckoutConflictException: Checkout conflict with files: 
+msalumnosprofe/src/main/resources/application.properties
+	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:423)
+	at org.eclipse.jgit.api.PullCommand.call(PullCommand.java:374)
+	at org.eclipse.egit.core.op.PullOperation$PullJob.run(PullOperation.java:256)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+Caused by: org.eclipse.jgit.errors.CheckoutConflictException: Checkout conflict with files: 
+msalumnosprofe/src/main/resources/application.properties
+	at org.eclipse.jgit.dircache.DirCacheCheckout.doCheckout(DirCacheCheckout.java:516)
+	at org.eclipse.jgit.dircache.DirCacheCheckout.checkout(DirCacheCheckout.java:480)
+	at org.eclipse.jgit.api.MergeCommand.call(MergeCommand.java:289)
+	... 3 more
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-25 18:18:34.540
+!MESSAGE Classpath changed for project: msalumnos
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-25 18:18:34.653
+!MESSAGE Classpath changed for project: msalumnos
+
+!ENTRY org.springframework.tooling.boot.ls 1 0 2023-09-25 18:18:36.056
+!MESSAGE Classpath changed for project: msalumnos
+
+!ENTRY org.eclipse.jface 2 0 2023-09-25 18:18:36.398
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2023-09-25 18:18:36.398
+!MESSAGE A conflict occurred for CTRL+SHIFT+C:
+Binding(CTRL+SHIFT+C,
+	ParameterizedCommand(Command(org.eclipse.tm4e.languageconfiguration.toggleLineCommentCommand,Toggle Line Comment,
+		,
+		Category(org.eclipse.tm4e.languageconfiguration.category,TM4E Language Configuration,null,true),
+		WorkbenchHandlerServiceHandler("org.eclipse.tm4e.languageconfiguration.toggleLineCommentCommand"),
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.textEditorScope,,,system)
+Binding(CTRL+SHIFT+C,
+	ParameterizedCommand(Command(org.springframework.tooling.boot.ls.ToggleComment,Toggle Comment,
+		,
+		Category(org.springframework.ide.eclipse.commands,Spring Generic Text Editor,Spring Language Server Commands,true),
+		WorkbenchHandlerServiceHandler("org.springframework.tooling.boot.ls.ToggleComment"),
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.textEditorScope,,,system)

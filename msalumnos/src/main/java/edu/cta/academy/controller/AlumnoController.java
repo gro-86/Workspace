@@ -1,11 +1,16 @@
 package edu.cta.academy.controller;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,13 +37,23 @@ public class AlumnoController {
 	AlumnoService alumnoService;
 	
 	//Post
+	//@Valid indica que valide al alumno recibido.
 	@PostMapping //http://localhost:8085/alumno
-	public ResponseEntity<?>insertarAlumno(@RequestBody Alumno alumno){
+	public ResponseEntity<?>insertarAlumno(@Valid @RequestBody Alumno alumno, BindingResult br){
 		
-		Alumno alumno_nuevo = null;
+		//BindingResult informa de cómo ha ido la carga. Si se ha superado o no la validación
+		
 		ResponseEntity<?> responseEntity = null;
-		alumno_nuevo = this.alumnoService.altaAlumno(alumno);
-		responseEntity=ResponseEntity.status(HttpStatus.CREATED).body(alumno_nuevo);
+		Alumno alumno_nuevo = null;
+		
+		if(br.hasErrors()) {
+			System.out.println("El alumno trae fallos");
+			List<ObjectError> listaErrores = br.getAllErrors();
+			responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(listaErrores);
+		}else {
+			alumno_nuevo = this.alumnoService.altaAlumno(alumno);
+			responseEntity=ResponseEntity.status(HttpStatus.CREATED).body(alumno_nuevo);
+		}
 			
 		return responseEntity;
 	}

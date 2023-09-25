@@ -9,6 +9,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity //Tabla asociada a una BD
 @Table(name = "alumnos")
@@ -18,10 +24,22 @@ public class Alumno {
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincremento de ID en Mysql
 	private Long id;
 	
+	@Size(min = 3, max = 20) //tamaño mínimo y máximo
 	private String nombre;
+	
+	@NotEmpty //no admite apellidos vacíos
+	@NotBlank //no admite apellidos en blanco
 	private String apellido;
+	
+	@Email //formato correcto para email
 	private String email;
+	
+	@Min(0) //mínimo de 0 y máximo 130
+	@Max(130)
 	private int edad;
+	
+	@Column(name="creado_en")
+	private LocalDateTime creadoEn;
 	
 	public Alumno() {
 		
@@ -84,9 +102,6 @@ public class Alumno {
 	public void setCreadoEn(LocalDateTime creadoEn) {
 		this.creadoEn = creadoEn;
 	}
-
-	@Column(name="creado_en")
-	private LocalDateTime creadoEn;
 	
 	@PrePersist //Antes de que se inserte un alumno, se ejecuta este método
 	private void generarFechaCreacion() {
