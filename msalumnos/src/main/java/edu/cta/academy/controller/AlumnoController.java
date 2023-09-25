@@ -187,5 +187,19 @@ public class AlumnoController {
 
 		return responseEntity;
 	}
+	
+	//Get
+	@GetMapping("/buscarPorRangoEdad") /** http://localhost:8085/alumno/buscarPorRangoEdad?nombre=R 
+	http://localhost:8085/alumno/buscarPorRangoEdad/R */
+	public ResponseEntity<?> listarAlumnosConteniendo(@RequestParam(required = true, name = "nombre") String nombre) {
+		
+		Iterable<Alumno> ita = null;
+		ResponseEntity<?> responseEntity = null;
+		
+		ita = this.alumnoService.findByNombreContaining(nombre);
+		responseEntity = ResponseEntity.ok(ita);
+
+		return responseEntity;
+	}
 
 }

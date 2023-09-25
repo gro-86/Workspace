@@ -26,5 +26,8 @@ public interface AlumnoService {
 	//findByEdad
 	Iterable<Alumno>findByEdadBetween(int edadMin, int edadMax);
 	
+	//findByEdad
+	Iterable<Alumno>findByNombreContaining(String nombre);
+	
 	
 }

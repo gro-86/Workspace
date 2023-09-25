@@ -17,8 +17,13 @@ public interface AlumnoRepository extends CrudRepository<Alumno,Long> {
 	//1. Keyword queries - Consultas por palabras clave
 	//Consulta los alumnos que estén en un rango de edad
 	Iterable<Alumno>findByEdadBetween(int edadMin, int edadMax);
+	//consultar los alumnos que contengan un numbre dado
+	Iterable<Alumno>findByFirstNameContaining(String nombre);
 	
 	//2. JPQL - HQL
+	
+	
+	
 	//3. Native queries
 	//4. Criteria API (Libreria para hacer consultas con este API específico de JPA)
 	//5. Stored Procedures
