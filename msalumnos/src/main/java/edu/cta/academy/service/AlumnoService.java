@@ -23,5 +23,8 @@ public interface AlumnoService {
 	//updateById
 	Optional<Alumno> modificarPorId (Alumno alumno, Long id);
 	
+	//findByEdad
+	Iterable<Alumno>findByEdadBetween(int edadMin, int edadMax);
+	
 	
 }
