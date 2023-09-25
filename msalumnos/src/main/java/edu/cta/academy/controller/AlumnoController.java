@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,8 +35,25 @@ import edu.cta.academy.service.AlumnoService;
 @RequestMapping("/alumno") //Le dices al servidor que todo lo que sea /alumno -prefijo de todos los métodos, es para esta clase
 public class AlumnoController {
 	
+	Logger logger = LoggerFactory.getLogger(AlumnoController.class); //Instancia de log
+	
 	@Autowired
 	AlumnoService alumnoService;
+	
+	private ResponseEntity<?>obtenerErrores(BindingResult br){
+		ResponseEntity<?> responseEntity = null;
+		
+		logger.debug("El alumno trae fallos");
+		List<ObjectError> listaErrores = br.getAllErrors();
+		listaErrores.forEach((ObjectError error)-> //esta función en realidad es accept 
+			{
+				logger.error(error.toString());
+			}
+			);
+		//Collections.sort(listaErrores, (o1, o2)-> o1.toString().compareTo(o2.toString()));
+		responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(listaErrores);
+   return responseEntity;
+	};
 	
 	//Post
 	//@Valid indica que valide al alumno recibido.
@@ -46,15 +65,16 @@ public class AlumnoController {
 		ResponseEntity<?> responseEntity = null;
 		Alumno alumno_nuevo = null;
 		
-		if(br.hasErrors()) {
-			System.out.println("El alumno trae fallos");
-			List<ObjectError> listaErrores = br.getAllErrors();
-			responseEntity = ResponseEntity.status(HttpStatus.BAD_REQUEST).body(listaErrores);
-		}else {
-			alumno_nuevo = this.alumnoService.altaAlumno(alumno);
-			responseEntity=ResponseEntity.status(HttpStatus.CREATED).body(alumno_nuevo);
-		}
+			if (br.hasErrors())
+			{
+				responseEntity = obtenerErrores(br);
+			} else {
+				logger.debug("El alumno viene sin fallos");
+				alumno_nuevo = this.alumnoService.altaAlumno(alumno);
+				responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(alumno_nuevo);
+			}
 			
+		
 		return responseEntity;
 	}
 	
@@ -119,23 +139,35 @@ public class AlumnoController {
 		alumno = new Alumno(5l,"FERESTHTEH","LOPEZ","fere@oracle.es",18,LocalDateTime.now());
 		
 		return alumno;
-	}
+	};
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> modificarAlumno(@RequestBody Alumno alumno, @PathVariable Long id) {
+	public ResponseEntity<?> modificarAlumno(@Valid @RequestBody Alumno alumno, BindingResult br, @PathVariable Long id) {
 		
-		Optional<Alumno> oa = null; 
 		ResponseEntity<?> responseEntity = null;
-		oa = this.alumnoService.modificarPorId(alumno,id);
-	
-		if(oa.isEmpty()) {
-			responseEntity = ResponseEntity.noContent().build(); 
-		}else {
-			
-			Alumno alumno_modificado = oa.get();
-			responseEntity = ResponseEntity.ok(alumno_modificado);
-		}
+		Optional<Alumno> oa = null;//alumno
 		
+			if (br.hasErrors())
+			{
+				logger.debug("Alumno con errores en PUT");
+				responseEntity = obtenerErrores(br);
+				
+			} else {
+				
+				logger.debug ("ALUMNO RX " + alumno);
+				oa =  this.alumnoService.modificarPorId(alumno, id);
+				
+				if (oa.isEmpty())
+				{
+					//si no está--devolver el cuerpo vacío y 404 no content
+					responseEntity = ResponseEntity.notFound().build();
+				}  else {
+					//el optional tiene un alumno //si está--devolver el alumno y 200 ok
+					Alumno alumno_modificado = oa.get();
+					responseEntity = ResponseEntity.ok(alumno_modificado);
+				}
+				
+			}	
 		
 		return responseEntity;
 	}
