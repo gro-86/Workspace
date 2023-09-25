@@ -47,6 +47,8 @@ public class AlumnoController {
 	@DeleteMapping("/{id}") //http://localhost:8085/alumno/5
 	public ResponseEntity<?>borrarAlumno(@PathVariable Long id){
 		
+		String saludo = null;
+		saludo.length();
 		ResponseEntity<?> responseEntity = null;
 		this.alumnoService.borrarAlumnoPorId(id);
 		responseEntity=ResponseEntity.status(HttpStatus.OK).build();
@@ -60,10 +62,14 @@ public class AlumnoController {
 		//? Devuelve cualquier cosa. En realidad es un iterable
 		//ResponseEntity representa el mensaje HTTP de respuesta
 		Iterable<Alumno> ita = null; //Lista de alumnos
+		
 		ResponseEntity<?> responseEntity = null;
+		/**
+		var nombre = "HOLA";
+		nombre.charAt(4);
+		*/
 		ita = this.alumnoService.consultarTodos();
 		responseEntity=ResponseEntity.ok(ita);
-		
 		
 		return responseEntity;
 	}
@@ -76,6 +82,7 @@ public class AlumnoController {
 		ResponseEntity<?> responseEntity = null;
 		oa = this.alumnoService.consultarPorId(id);
 		/**Si está devuelve ok (200). Si no está devuelve el cuerpo vacío y un no-content (204)*/
+	
 		if(oa.isEmpty()) {
 			responseEntity = ResponseEntity.noContent().build(); //Genera cuerpo vacío
 		}else {
