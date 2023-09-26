@@ -7,6 +7,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.ParameterMode;
 import javax.persistence.PrePersist;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
@@ -15,9 +18,23 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import javax.persistence.NamedStoredProcedureQuery;
+import javax.persistence.NamedStoredProcedureQueries;
+import javax.persistence.StoredProcedureParameter;
 
 @Entity //Tabla asociada a una BD
 @Table(name = "alumnos")
+@NamedStoredProcedureQueries(
+		{
+			@NamedStoredProcedureQuery(name="Alumno.alumnosRegistradosHoy", procedureName = "obtenerAlumnosRegistradosHoy", resultClasses = edu.cta.academy.entity.Alumno.class),
+			@NamedStoredProcedureQuery(name="Alumno.alumnosEdadMediaMinMax", procedureName = "calcular_max_min_media_edad",
+			parameters = {
+					@StoredProcedureParameter(mode = ParameterMode.INOUT , type = Integer.class , name ="edadMax"),
+					@StoredProcedureParameter(mode = ParameterMode.INOUT , type = Integer.class , name ="edadMin"),
+					@StoredProcedureParameter(mode = ParameterMode.INOUT , type = Float.class , name ="edadMedia")
+			})
+		}
+		)
 public class Alumno {
 	
 	@Id

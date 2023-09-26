@@ -1,5 +1,6 @@
 package edu.cta.academy.service;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -92,15 +93,29 @@ public class AlumnoServiceImpl implements AlumnoService{
 	@Override
 	@Transactional(readOnly=true)
 	public Iterable<Alumno> findByNombreAndApellidoContaining(String patron) {
-		// TODO Auto-generated method stub
+		
 		return this.alumnoRepository.busquedaPorNombreOApellidoNativa(patron);
 	}
 	
 	@Override
 	@Transactional(readOnly=true)
 	public Iterable<Alumno> findByNombreAndApellidoContainingJPQL(String patron) {
-		// TODO Auto-generated method stub
+		
 		return this.alumnoRepository.busquedaPorNombreOApellidoJPQL(patron);
+	}
+
+	@Override
+	@Transactional //no indicamos readOnly=true porque en los procedimientos no funciona
+	public Iterable<Alumno> procedimientoAltaAlumnosHoy() {
+		
+		return this.alumnoRepository.procedimientoAltaAlumnosHoy();
+	}
+
+	@Override
+	@Transactional
+	public Map<String, Number> procedimientoEstadisticosEdad() {
+		
+		return this.alumnoRepository.procedimientoEstadisticosEdad(0, 0, 0);
 	}
 	
 }

@@ -2,6 +2,7 @@ package edu.cta.academy.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -226,6 +227,34 @@ public class AlumnoController {
 		
 		result = this.alumnoService.findByNombreAndApellidoContaining(patron);
 		responseEntity = ResponseEntity.ok(result);
+
+		return responseEntity;
+	}
+	
+	//Get
+	@GetMapping("/obtenerAlumnosAltaHoy") /** http://localhost:8085/alumno/obtenerAltaAlumnosHoy
+	http://localhost:8085/alumno/buscarPorRangoNombreApellidoJPQL/ */
+	public ResponseEntity<?> obtenerAlumnosAltaHoy() {
+		
+		Iterable<Alumno> result = null;
+		ResponseEntity<?> responseEntity = null;
+		
+		result = this.alumnoService.procedimientoAltaAlumnosHoy();
+		responseEntity = ResponseEntity.ok(result);
+
+		return responseEntity;
+	}
+		
+	
+	//Get
+	@GetMapping("/obtenerEstadisticosEdad") /** http://localhost:8085/alumno/obtenerEstadisticosEdad*/
+	public ResponseEntity<?> obtenerEstadisticosEdad() {
+		
+		Map<String, Number> mapStats = null;
+		ResponseEntity<?> responseEntity = null;
+		
+		mapStats = this.alumnoService.procedimientoEstadisticosEdad();
+		responseEntity = ResponseEntity.ok(mapStats);
 
 		return responseEntity;
 	}
