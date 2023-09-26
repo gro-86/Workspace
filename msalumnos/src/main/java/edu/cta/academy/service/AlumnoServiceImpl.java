@@ -9,8 +9,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 import edu.cta.academy.entity.Alumno;
+import edu.cta.academy.model.FraseChiquito;
 import edu.cta.academy.repository.AlumnoRepository;
 
 /**
@@ -132,6 +134,19 @@ public class AlumnoServiceImpl implements AlumnoService{
 	public Page<Alumno> findByEdadBetween(int edadMin, int edadMax, Pageable pageable) {
 		
 		return this.alumnoRepository.findByEdadBetween(edadMin, edadMax, pageable);
+	}
+
+	@Override
+	public Optional<FraseChiquito> obtenerFraseAleatoriaChiquito() {
+		
+		Optional<FraseChiquito> oc = Optional.empty();
+		RestTemplate restTemplate = null;
+		FraseChiquito frase = null;
+		
+		restTemplate = new RestTemplate();
+		restTemplate.getForObject("https://chiquitadas.es/api/documentation#/citas/4d3d7fbebfc2d9ade65463dfdf630651", FraseChiquito.class);
+		
+		return oc;
 	}
 	
 }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import edu.cta.academy.entity.Alumno;
+import edu.cta.academy.model.FraseChiquito;
 
 //Define lo que hacemos
 public interface AlumnoService {
@@ -45,5 +46,9 @@ public interface AlumnoService {
 	Map<String, Number> procedimientoEstadisticosEdad();
 	
 	Iterable<Alumno> findAll(Pageable pageable);
+	
+	//NOTA: No se define la función de la API de chiquito aquí
+	Optional<FraseChiquito>obtenerFraseAleatoriaChiquito();
+	
 	
 }
