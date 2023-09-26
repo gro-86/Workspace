@@ -2,9 +2,12 @@ package edu.cta.academy.repository;
 
 import java.util.Map;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 
 import edu.cta.academy.entity.Alumno;
@@ -12,15 +15,18 @@ import edu.cta.academy.entity.Alumno;
 /**
  * Se dedica a interactuar con la base de datos
  * */
-
+//Tiene las funciones de CrudRepository más las propias para el paginado
 @Repository
-public interface AlumnoRepository extends CrudRepository<Alumno,Long> {
+public interface AlumnoRepository extends PagingAndSortingRepository<Alumno,Long> {
+	//public interface AlumnoRepository extends CrudRepository<Alumno,Long> {
 	
 	//Vamos a añadir nuevas operaciones en la base de datos
 	
 	//1. Keyword queries - Consultas por palabras clave
 	//Consulta los alumnos que estén en un rango de edad
 	Iterable<Alumno>findByEdadBetween(int edadMin, int edadMax);
+	
+	Page<Alumno>findByEdadBetween(int edadMin, int edadMax, Pageable pageable);
 	
 	//consultar los alumnos que contengan un numbre dado
 	Iterable<Alumno>findByNombreContaining(String nombre);

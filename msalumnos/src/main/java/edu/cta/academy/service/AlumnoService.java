@@ -3,6 +3,9 @@ package edu.cta.academy.service;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import edu.cta.academy.entity.Alumno;
 
 //Define lo que hacemos
@@ -27,6 +30,8 @@ public interface AlumnoService {
 	//findByEdad
 	Iterable<Alumno>findByEdadBetween(int edadMin, int edadMax);
 	
+	Iterable<Alumno>findByEdadBetween(int edadMin, int edadMax,Pageable pageable);
+	
 	//findByEdad
 	Iterable<Alumno>findByNombreContaining(String nombre);
 	
@@ -39,6 +44,6 @@ public interface AlumnoService {
 	
 	Map<String, Number> procedimientoEstadisticosEdad();
 	
-	
+	Iterable<Alumno> findAll(Pageable pageable);
 	
 }

@@ -10,6 +10,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -190,6 +191,19 @@ public class AlumnoController {
 	}
 	
 	//Get
+	@GetMapping("/buscarPorRangoEdadPage") /** http://localhost:8085/alumno/buscarPorRangoEdad?edadMin=3&edadMax=90&page=0&sort=edad ASC */
+	public ResponseEntity<?> listarAlumnosBetweenEdadPage(@RequestParam(required = true, name = "edadMin") int edadMin, @RequestParam(required = true, name = "edadMax") int edadMax , Pageable page) {
+		
+		Iterable<Alumno> ita = null;
+		ResponseEntity<?> responseEntity = null;
+		
+		ita = this.alumnoService.findByEdadBetween(edadMin, edadMax, page);
+		responseEntity = ResponseEntity.ok(ita);
+
+		return responseEntity;
+	}
+	
+	//Get
 	@GetMapping("/buscarPorRangoNombre/{nombre}") /** http://localhost:8085/alumno/buscarPorRangoNombre?nombre=R 
 	http://localhost:8085/alumno/buscarPorRangoNombre/R */
 	public ResponseEntity<?> listarAlumnosConteniendo(@PathVariable String nombre) {
@@ -255,6 +269,19 @@ public class AlumnoController {
 		
 		mapStats = this.alumnoService.procedimientoEstadisticosEdad();
 		responseEntity = ResponseEntity.ok(mapStats);
+
+		return responseEntity;
+	}
+	
+	//Get
+	@GetMapping("/obtenerAlumnosPorPagina") /** http://localhost:8085/alumno/obtenerAlumnosPorPagina?page=0&size=2&sort=edad, ASC*/
+	public ResponseEntity<?> obtenerAlumnosPorPagina(Pageable pageable) {
+		
+		Iterable<Alumno> listado = null;
+		ResponseEntity<?> responseEntity = null;
+		
+		listado = this.alumnoService.findAll(pageable);
+		responseEntity = ResponseEntity.ok(listado);
 
 		return responseEntity;
 	}

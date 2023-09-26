@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -116,6 +118,20 @@ public class AlumnoServiceImpl implements AlumnoService{
 	public Map<String, Number> procedimientoEstadisticosEdad() {
 		
 		return this.alumnoRepository.procedimientoEstadisticosEdad(0, 0, 0);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Iterable<Alumno> findAll(Pageable pageable) {
+		
+		return this.alumnoRepository.findAll(pageable);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Page<Alumno> findByEdadBetween(int edadMin, int edadMax, Pageable pageable) {
+		
+		return this.alumnoRepository.findByEdadBetween(edadMin, edadMax, pageable);
 	}
 	
 }
