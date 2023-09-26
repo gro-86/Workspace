@@ -86,7 +86,14 @@ public class AlumnoServiceImpl implements AlumnoService{
 	@Transactional(readOnly=true)
 	public Iterable<Alumno> findByNombreContaining(String nombre) {
 		
-		return this.alumnoRepository.findByFirstNameContaining(nombre);
+		return this.alumnoRepository.findByNombreContaining(nombre);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Iterable<Alumno> findByNombreAndApellidoContaining(String patron) {
+		// TODO Auto-generated method stub
+		return this.alumnoRepository.busquedaPorNombreOApellidoNativa(patron);
 	}
 	
 }

@@ -29,5 +29,8 @@ public interface AlumnoService {
 	//findByEdad
 	Iterable<Alumno>findByNombreContaining(String nombre);
 	
+	//findByEdad
+		Iterable<Alumno>findByNombreAndApellidoContaining(String patron);
+	
 	
 }

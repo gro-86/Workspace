@@ -189,15 +189,29 @@ public class AlumnoController {
 	}
 	
 	//Get
-	@GetMapping("/buscarPorRangoEdad") /** http://localhost:8085/alumno/buscarPorRangoEdad?nombre=R 
-	http://localhost:8085/alumno/buscarPorRangoEdad/R */
-	public ResponseEntity<?> listarAlumnosConteniendo(@RequestParam(required = true, name = "nombre") String nombre) {
+	@GetMapping("/buscarPorRangoNombre/{nombre}") /** http://localhost:8085/alumno/buscarPorRangoNombre?nombre=R 
+	http://localhost:8085/alumno/buscarPorRangoNombre/R */
+	public ResponseEntity<?> listarAlumnosConteniendo(@PathVariable String nombre) {
 		
-		Iterable<Alumno> ita = null;
+		Iterable<Alumno> result = null;
 		ResponseEntity<?> responseEntity = null;
 		
-		ita = this.alumnoService.findByNombreContaining(nombre);
-		responseEntity = ResponseEntity.ok(ita);
+		result = this.alumnoService.findByNombreContaining(nombre);
+		responseEntity = ResponseEntity.ok(result);
+
+		return responseEntity;
+	}
+	
+	//Get
+	@GetMapping("/buscarPorRangoNombreApellido/{patron}") /** http://localhost:8085/alumno/buscarPorRangoNombre?nombre=R 
+	http://localhost:8085/alumno/buscarPorRangoNombreApellido/ */
+	public ResponseEntity<?> listarAlumnosConteniendoNombreApellido(@PathVariable String patron) {
+		
+		Iterable<Alumno> result = null;
+		ResponseEntity<?> responseEntity = null;
+		
+		result = this.alumnoService.findByNombreAndApellidoContaining(patron);
+		responseEntity = ResponseEntity.ok(result);
 
 		return responseEntity;
 	}
