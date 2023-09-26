@@ -96,4 +96,11 @@ public class AlumnoServiceImpl implements AlumnoService{
 		return this.alumnoRepository.busquedaPorNombreOApellidoNativa(patron);
 	}
 	
+	@Override
+	@Transactional(readOnly=true)
+	public Iterable<Alumno> findByNombreAndApellidoContainingJPQL(String patron) {
+		// TODO Auto-generated method stub
+		return this.alumnoRepository.busquedaPorNombreOApellidoJPQL(patron);
+	}
+	
 }

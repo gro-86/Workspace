@@ -23,9 +23,9 @@ public interface AlumnoRepository extends CrudRepository<Alumno,Long> {
 	//consultar los alumnos que contengan un numbre dado
 	Iterable<Alumno>findByNombreContaining(String nombre);
 	
-	//2. JPQL - HQL
-	
-	
+	//2. JPQL - HQL -- Similar a SQL- en vez de referirnos a las tablas, lo hace a las entidades
+	@Query(value = "Select a FROM Alumno a where a.nombre like %?1% or a.apellido like %?1%" )
+	Iterable<Alumno> busquedaPorNombreOApellidoJPQL (String patron);
 	
 	//3. Native queries
 	@Query(value = "SELECT * FROM ALUMNOS a WHERE a.NOMBRE LIKE %?1% OR a.APELLIDO LIKE %?1%", nativeQuery = true)

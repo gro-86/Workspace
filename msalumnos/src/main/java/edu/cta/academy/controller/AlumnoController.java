@@ -215,5 +215,19 @@ public class AlumnoController {
 
 		return responseEntity;
 	}
+	
+	//Get
+	@GetMapping("/buscarPorRangoNombreApellidoJPQL/{patron}") /** http://localhost:8085/alumno/buscarPorRangoNombre?nombre=R 
+	http://localhost:8085/alumno/buscarPorRangoNombreApellidoJPQL/ */
+	public ResponseEntity<?> listarAlumnosConteniendoNombreApellidoJPQL(@PathVariable String patron) {
+		
+		Iterable<Alumno> result = null;
+		ResponseEntity<?> responseEntity = null;
+		
+		result = this.alumnoService.findByNombreAndApellidoContaining(patron);
+		responseEntity = ResponseEntity.ok(result);
+
+		return responseEntity;
+	}
 
 }

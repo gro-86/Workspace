@@ -30,7 +30,9 @@ public interface AlumnoService {
 	Iterable<Alumno>findByNombreContaining(String nombre);
 	
 	//findByEdad
-		Iterable<Alumno>findByNombreAndApellidoContaining(String patron);
+	Iterable<Alumno>findByNombreAndApellidoContaining(String patron);
+	
+	Iterable<Alumno>findByNombreAndApellidoContainingJPQL(String patron);
 	
 	
 }
