@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,8 +35,8 @@ import edu.cta.academy.service.AlumnoService;
  * Recibe y contesta a las peticiones de los clientes
  */
 
+@CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET}) //Permite todos los origenes y se aplica al GET
 @RestController
-@CrossOrigin
 @RequestMapping("/alumno") // Le dices al servidor que todo lo que sea /alumno -prefijo de todos los
 							// métodos, es para esta clase
 public class AlumnoController {
@@ -288,20 +289,21 @@ public class AlumnoController {
 	}
 	
 	//Get
-		@GetMapping("/obtenerFraseChiquito") /** http://localhost:8085/alumno/obtenerFraseChiquitoC*/
-		public ResponseEntity<?> obtenerFraseChiquito() {
-			
-			Optional<FraseChiquito> oFrase= null;
-			ResponseEntity<?> responseEntity = null;
-			
-			oFrase = this.alumnoService.obtenerFraseAleatoriaChiquito();
-			if (oFrase.isPresent()) {
-				responseEntity = 
-			}else {
-				responseEntity = 
-			}
+	@GetMapping("/obtenerFraseChiquito") /** http://localhost:8085/alumno/obtenerFraseChiquito*/
+	public ResponseEntity<?> obtenerFraseChiquito() {
+	
+	Optional<FraseChiquito> oFrase= null;
+	ResponseEntity<?> responseEntity = null;
+	
+	oFrase = this.alumnoService.obtenerFraseAleatoriaChiquito();
+	if (oFrase.isPresent()) {
+		responseEntity = ResponseEntity.ok(oFrase.get());
+	}else {
+		responseEntity = ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	}
 
-			return responseEntity;
-		}
+		return responseEntity;
+	}
+		
 
 }

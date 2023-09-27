@@ -144,7 +144,8 @@ public class AlumnoServiceImpl implements AlumnoService{
 		FraseChiquito frase = null;
 		
 		restTemplate = new RestTemplate();
-		restTemplate.getForObject("https://chiquitadas.es/api/documentation#/citas/4d3d7fbebfc2d9ade65463dfdf630651", FraseChiquito.class);
+		frase = restTemplate.getForObject("https://chiquitadas.es/api/quotes/avoleorrr", FraseChiquito.class);
+		oc = Optional.of(frase);
 		
 		return oc;
 	}
