@@ -35,7 +35,8 @@ import edu.cta.academy.service.AlumnoService;
  * Recibe y contesta a las peticiones de los clientes
  */
 
-@CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET}) //Permite todos los origenes y se aplica al GET
+@CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET,RequestMethod.POST}) //Permite todos los origenes y se aplica al GET
+//Se puede poner un plugin en el navegador que se salta esta restricción sin tener que activar esta anotación
 @RestController
 @RequestMapping("/alumno") // Le dices al servidor que todo lo que sea /alumno -prefijo de todos los
 							// métodos, es para esta clase
