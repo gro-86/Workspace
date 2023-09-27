@@ -23,4 +23,8 @@ vspring.datasource.url=jdbc:mysql://localhost:3306/?serverTimezone=UTC #Defines 
 # https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.stored-procedures
 #https://howtodoinjava.com/spring-data/pagination-sorting-example/
 #http://localhost:8085/alumno/obtenerAlumnosPorPagina?page=0&size=3&sort=edad,ASC Pillar por edad ascendente (de menos a mas)
-# API https://www.zaragoza.es/docs-api_sede/#/Cultura%3A%20Arte%20en%20la%20via%20publica/get_servicio_arte_publico_barrio
+#API https://www.zaragoza.es/docs-api_sede/#/Cultura%3A%20Arte%20en%20la%20via%20publica/get_servicio_arte_publico_barrio
+#CORS https://developer.mozilla.org/es/docs/Web/HTTP/CORS
+#Actuator https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
+#Generar JAR Run as - Maven build - goals = package. Se genera en C:\Users\CTA\Documents\Workspace\msalumnos\target
+#Eureka https://cloud.spring.io/spring-cloud-netflix/reference/html/
