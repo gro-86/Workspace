@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.ParameterMode;
@@ -57,6 +58,9 @@ public class Alumno {
 	
 	@Column(name="creado_en")
 	private LocalDateTime creadoEn;
+	
+	@Lob //Large Object Binary
+	private byte[] foto;
 	
 	public Alumno() {
 		
