@@ -19,6 +19,9 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.StoredProcedureParameter;
@@ -60,6 +63,7 @@ public class Alumno {
 	private LocalDateTime creadoEn;
 	
 	@Lob //Large Object Binary
+	@JsonIgnore //Evita que, aunque tengas los getters y setter, se serialice el atributo JSON
 	private byte[] foto;
 	
 	public Alumno() {
@@ -124,6 +128,16 @@ public class Alumno {
 		this.creadoEn = creadoEn;
 	}
 	
+	
+	
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
 	@PrePersist //Antes de que se inserte un alumno, se ejecuta este método
 	private void generarFechaCreacion() {
 		this.creadoEn = LocalDateTime.now(); //Fecha y hora actual

@@ -1,5 +1,6 @@
 package edu.cta.academy.controller;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import edu.cta.academy.entity.Alumno;
 import edu.cta.academy.model.FraseChiquito;
@@ -149,6 +151,7 @@ public class AlumnoController {
 
 	// Método para devolver un alumno que no esté en la base de datos (alumno de
 	// prueba)
+	//GET
 	@GetMapping("/obtener_alumno_test") // http://localhost:8085/alumno/obtener_alumno_test
 	public Alumno obtenerAlumnoTest() {
 
@@ -159,6 +162,7 @@ public class AlumnoController {
 		return alumno;
 	};
 
+	//PUT
 	@PutMapping("/{id}")
 	public ResponseEntity<?> modificarAlumno(@Valid @RequestBody Alumno alumno, BindingResult br,
 			@PathVariable Long id) {
@@ -189,7 +193,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Get
+	//GET
 	@GetMapping("/buscarPorRangoEdad") /** http://localhost:8085/alumno/buscarPorRangoEdad?edadMin=3&edadMax=90 
 	http://localhost:8085/alumno/buscarPorRangoEdad/3/90*/
 	public ResponseEntity<?> listarAlumnosBetweenEdad(@RequestParam(required = true, name = "edadMin") int edadMin, @RequestParam(required = true, name = "edadMax") int edadMax) {
@@ -203,7 +207,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Get
+	//GET
 	@GetMapping("/buscarPorRangoEdadPage") /** http://localhost:8085/alumno/buscarPorRangoEdad?edadMin=3&edadMax=90&page=0&sort=edad ASC */
 	public ResponseEntity<?> listarAlumnosBetweenEdadPage(@RequestParam(required = true, name = "edadMin") int edadMin, @RequestParam(required = true, name = "edadMax") int edadMax , Pageable page) {
 		
@@ -216,7 +220,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Get
+	//GET
 	@GetMapping("/buscarPorRangoNombre/{nombre}") /** http://localhost:8085/alumno/buscarPorRangoNombre?nombre=R 
 	http://localhost:8085/alumno/buscarPorRangoNombre/R */
 	public ResponseEntity<?> listarAlumnosConteniendo(@PathVariable String nombre) {
@@ -230,7 +234,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Get
+	//GET
 	@GetMapping("/buscarPorRangoNombreApellido/{patron}") /** http://localhost:8085/alumno/buscarPorRangoNombre?nombre=R 
 	http://localhost:8085/alumno/buscarPorRangoNombreApellido/ */
 	public ResponseEntity<?> listarAlumnosConteniendoNombreApellido(@PathVariable String patron) {
@@ -244,7 +248,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Get
+	//GET
 	@GetMapping("/buscarPorRangoNombreApellidoJPQL/{patron}") /** http://localhost:8085/alumno/buscarPorRangoNombre?nombre=R 
 	http://localhost:8085/alumno/buscarPorRangoNombreApellidoJPQL/ */
 	public ResponseEntity<?> listarAlumnosConteniendoNombreApellidoJPQL(@PathVariable String patron) {
@@ -258,7 +262,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Get
+	//GET
 	@GetMapping("/obtenerAlumnosAltaHoy") /** http://localhost:8085/alumno/obtenerAltaAlumnosHoy
 	http://localhost:8085/alumno/buscarPorRangoNombreApellidoJPQL/ */
 	public ResponseEntity<?> obtenerAlumnosAltaHoy() {
@@ -273,7 +277,7 @@ public class AlumnoController {
 	}
 		
 	
-	//Get
+	//GET
 	@GetMapping("/obtenerEstadisticosEdad") /** http://localhost:8085/alumno/obtenerEstadisticosEdad*/
 	public ResponseEntity<?> obtenerEstadisticosEdad() {
 		
@@ -286,7 +290,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Get
+	//GET PAGINA
 	@GetMapping("/obtenerAlumnosPorPagina") /** http://localhost:8085/alumno/obtenerAlumnosPorPagina?page=0&size=2&sort=edad, ASC*/
 	public ResponseEntity<?> obtenerAlumnosPorPagina(Pageable pageable) {
 		
@@ -299,7 +303,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 	
-	//Get
+	//GET
 	@GetMapping("/obtenerFraseChiquito") /** http://localhost:8085/alumno/obtenerFraseChiquito*/
 	public ResponseEntity<?> obtenerFraseChiquito() {
 	
@@ -315,6 +319,51 @@ public class AlumnoController {
 
 		return responseEntity;
 	}
+	
+	//POST con foto
+	@PostMapping("/insertar-con-foto") //POST http://localhost:8085/alumno/insertar-con-foto
+	public ResponseEntity<?> insertarAlumnoConFoto(@Valid Alumno alumno, BindingResult br, MultipartFile archivo) throws Exception {
+
+		ResponseEntity<?> responseEntity = null;
+		Alumno alumno_nuevo = null;
+
+		if (br.hasErrors()) {
+			
+			responseEntity = obtenerErrores(br);
+			
+		} else {
+			
+			logger.debug("VIENE CON FALLOS");
+			
+			if(!archivo.isEmpty()) {
+				
+				logger.debug("VIENE CON FOTO");
+				
+				try {
+					
+					alumno.setFoto(archivo.getBytes());
+					
+				} catch (IOException e) {
+					
+					e.printStackTrace();
+					logger.error("Error al cargar la foto", e);
+					throw e;
+				}
+				
+				alumno_nuevo = this.alumnoService.altaAlumno(alumno);
+				responseEntity = ResponseEntity.status(HttpStatus.CREATED).body(alumno_nuevo);
+				
+			}
+			
+			
+		}
+
+		return responseEntity;
+	}
+	
+	//PUT con foto
+	
+	//GET foto por ID
 		
 
 }
