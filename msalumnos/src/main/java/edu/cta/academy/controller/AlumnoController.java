@@ -10,6 +10,8 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,6 +48,13 @@ public class AlumnoController {
 
 	@Autowired
 	AlumnoService alumnoService;
+	
+	//Cuando se arranque el microservicio, se pasa un nombre por parámetro
+	@Value("${instancia}")
+	String nombre_instancia;
+	
+	@Autowired
+	Environment environment;
 
 	private ResponseEntity<?> obtenerErrores(BindingResult br) {
 		ResponseEntity<?> responseEntity = null;
@@ -108,6 +117,7 @@ public class AlumnoController {
 		/**
 		 * var nombre = "HOLA"; nombre.charAt(4);
 		 */
+		logger.debug("ATENDIDO POR "+ nombre_instancia + " PUERTO "+environment.getProperty("local.server.port"));
 		ita = this.alumnoService.consultarTodos();
 		responseEntity = ResponseEntity.ok(ita);
 
