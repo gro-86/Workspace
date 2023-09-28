@@ -362,6 +362,42 @@ public class AlumnoController {
 	}
 	
 	//PUT con foto
+	/**
+	 * @PutMapping("/modificar-con-foto/{id}")
+	public ResponseEntity<?> modificarAlumnoConFoto(@Valid  Alumno alumno, BindingResult br,
+			@PathVariable Long id, MultipartFile archivo) {
+
+		ResponseEntity<?> responseEntity = null;
+		Optional<Alumno> oa = null;// alumno
+
+		if (br.hasErrors()) {
+			logger.debug("Alumno con errores en PUT");
+			responseEntity = obtenerErrores(br);
+
+		} else {
+			
+			if(!archivo.isEmpty()) {
+				
+				logger.debug("ALUMNO RX " + alumno);
+				oa = this.alumnoService.modificarPorId(alumno, id);
+
+			if (oa.isEmpty()) {
+				
+				responseEntity = ResponseEntity.notFound().build();
+				
+				
+			} else {
+				
+				Alumno alumno_modificado = oa.get();
+				responseEntity = ResponseEntity.ok(alumno_modificado);
+			}
+
+		}
+
+		return responseEntity;
+	}
+	 * */
+	
 	
 	//GET foto por ID
 		

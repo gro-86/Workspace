@@ -137,6 +137,20 @@ public class Alumno {
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
 	}
+	
+	/**
+	 * Se usa el método como flag. Si tiene una foto asociada, valdrá un número. Si no, será nulo.
+	 * */
+	public Integer getFotoHashCode() {
+		
+		Integer iDev = null;
+		
+		if (this.foto!=null) {
+			iDev = this.foto.hashCode();
+		}
+		
+		return iDev;
+	}
 
 	@PrePersist //Antes de que se inserte un alumno, se ejecuta este método
 	private void generarFechaCreacion() {
