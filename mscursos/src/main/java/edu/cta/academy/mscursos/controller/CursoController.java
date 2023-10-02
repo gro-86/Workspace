@@ -85,7 +85,7 @@ public class CursoController {
 			return responseEntity;
 		}
 	
-	// Get
+	//Get
 	@GetMapping // http://localhost:8085/curso
 	public ResponseEntity<?> listarAlumnos() {
 	

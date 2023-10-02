@@ -11,6 +11,7 @@ import edu.cta.academy.mscursos.entity.Curso;
 import edu.cta.academy.mscursos.repo.CursoRepository;
 
 @Service
+@Transactional //A nivel de clase afecta a todos los métodos de la clase
 public class CursoServiceImpl implements CursoService{
 	
 	@Autowired 
