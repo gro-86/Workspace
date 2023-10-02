@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -39,7 +43,7 @@ import edu.cta.academy.service.AlumnoService;
  * Recibe y contesta a las peticiones de los clientes
  */
 
-@CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET,RequestMethod.POST}) //Permite todos los origenes y se aplica al GET
+@CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}) //Permite todos los origenes y se aplica al GET
 //Se puede poner un plugin en el navegador que se salta esta restricción sin tener que activar esta anotación
 @RestController
 @RequestMapping("/alumno") // Le dices al servidor que todo lo que sea /alumno -prefijo de todos los
@@ -360,12 +364,44 @@ public class AlumnoController {
 
 		return responseEntity;
 	}
+	 
+	
+	// GetById
+	@GetMapping("/obtenerFoto/{id}") // http://localhost:8085/obtenerFotoAlumno/5
+	public ResponseEntity<?> obtenerFotoPorId(@PathVariable Long id) {
+
+		Optional<Alumno> oa = null; // Lista de alumnos
+		ResponseEntity<?> responseEntity = null;
+		oa = this.alumnoService.consultarPorId(id);
+		
+		if (oa.isEmpty()) {
+			
+			responseEntity = ResponseEntity.noContent().build(); // Genera cuerpo vacío
+			
+		} else {
+			
+			Alumno alumno_leido = oa.get();
+			
+			if(alumno_leido.getFoto()!=null) {
+				logger.debug("El alumno tiene foto");
+				//Resource es cualquier tipo de archivo
+				Resource imagen = new ByteArrayResource(alumno_leido.getFoto()); //obtengo la foto
+				responseEntity = ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(imagen);
+			} else {
+				logger.debug("El alumno existe pero no tiene foto");
+				responseEntity = ResponseEntity.noContent().build(); // Genera cuerpo vacío
+			}
+			
+		}
+
+		return responseEntity;
+	}
 	
 	//PUT con foto
-	/**
-	 * @PutMapping("/modificar-con-foto/{id}")
-	public ResponseEntity<?> modificarAlumnoConFoto(@Valid  Alumno alumno, BindingResult br,
-			@PathVariable Long id, MultipartFile archivo) {
+	//NOTA: El nombre del parámetro debe coincidir con la clave en la petición
+	@PutMapping("/modificar-con-foto/{id}")
+	public ResponseEntity<?> modificarAlumnoConFoto(@Valid Alumno alumno, BindingResult br, MultipartFile archivo,
+			@PathVariable Long id) throws Exception {
 
 		ResponseEntity<?> responseEntity = null;
 		Optional<Alumno> oa = null;// alumno
@@ -375,19 +411,26 @@ public class AlumnoController {
 			responseEntity = obtenerErrores(br);
 
 		} else {
+
+			logger.debug("ALUMNO RX " + alumno);
 			
 			if(!archivo.isEmpty()) {
-				
-				logger.debug("ALUMNO RX " + alumno);
-				oa = this.alumnoService.modificarPorId(alumno, id);
+				try {
+					alumno.setFoto(archivo.getBytes());
+				} catch (IOException e) {
+					
+					logger.error("ERROR AL MODIFICAR CON FOTO",e);
+					throw e;
+				}
+			}
+			
+			oa = this.alumnoService.modificarPorId(alumno, id);
 
 			if (oa.isEmpty()) {
-				
+				// si no está--devolver el cuerpo vacío y 404 no content
 				responseEntity = ResponseEntity.notFound().build();
-				
-				
 			} else {
-				
+				// el optional tiene un alumno //si está--devolver el alumno y 200 ok
 				Alumno alumno_modificado = oa.get();
 				responseEntity = ResponseEntity.ok(alumno_modificado);
 			}
@@ -395,11 +438,6 @@ public class AlumnoController {
 		}
 
 		return responseEntity;
-	}
-	 * */
-	
-	
-	//GET foto por ID
-		
+}
 
 }
