@@ -1,4 +1,4 @@
-package edu.cta.academy.service;
+package edu.cta.academy.alumnos.service;
 
 import java.util.Map;
 import java.util.Optional;
@@ -11,9 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
-import edu.cta.academy.entity.Alumno;
-import edu.cta.academy.model.FraseChiquito;
-import edu.cta.academy.repository.AlumnoRepository;
+import edu.cta.academy.alumnos.entity.Alumno;
+import edu.cta.academy.alumnos.model.FraseChiquito;
+import edu.cta.academy.alumnos.repository.AlumnoRepository;
 
 /**
  * Realiza las tareas de aplicacion

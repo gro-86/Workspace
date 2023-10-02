@@ -1,4 +1,4 @@
-package edu.cta.academy.controller;
+package edu.cta.academy.alumnos.controller;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.cta.academy.entity.Alumno;
-import edu.cta.academy.model.FraseChiquito;
-import edu.cta.academy.service.AlumnoService;
+import edu.cta.academy.alumnos.entity.Alumno;
+import edu.cta.academy.alumnos.model.FraseChiquito;
+import edu.cta.academy.alumnos.service.AlumnoService;
 
 /**
  * Recibe y contesta a las peticiones de los clientes
