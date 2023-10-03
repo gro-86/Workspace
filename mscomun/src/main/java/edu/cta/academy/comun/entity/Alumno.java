@@ -1,6 +1,7 @@
-package edu.cta.academy.alumnos.entity;
+package edu.cta.academy.comun.entity;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -30,7 +31,7 @@ import javax.persistence.StoredProcedureParameter;
 @Table(name = "alumnos")
 @NamedStoredProcedureQueries(
 		{
-			@NamedStoredProcedureQuery(name="Alumno.alumnosRegistradosHoy", procedureName = "obtenerAlumnosRegistradosHoy", resultClasses = edu.cta.academy.alumnos.entity.Alumno.class),
+			@NamedStoredProcedureQuery(name="Alumno.alumnosRegistradosHoy", procedureName = "obtenerAlumnosRegistradosHoy", resultClasses = edu.cta.academy.comun.entity.Alumno.class),
 			@NamedStoredProcedureQuery(name="Alumno.alumnosEdadMediaMinMax", procedureName = "calcular_max_min_media_edad",
 			parameters = {
 					@StoredProcedureParameter(mode = ParameterMode.INOUT , type = Integer.class , name ="edadMax"),
@@ -161,6 +162,27 @@ public class Alumno {
 	public String toString() {
 		return "Alumno [id=" + id + "\n, nombre=" + nombre + "\n, apellido=" + apellido + "\n, email=" + email + "\n, edad="
 				+ edad + "\n, creadoEn=" + creadoEn + "]";
+	}
+	
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		boolean iguales = true;
+		/** Pattern-matching. Si se cumple el instance of, hace el casting automáticamente
+		 * de object a Alumno en
+		 * */
+		if(this == obj) { 
+			iguales = true;
+		}else if(obj instanceof Alumno a) {
+			//iguales = this.id.equals(a.id);
+			iguales = Objects.equals(this.id, a.id);
+		}
+		
+		return iguales;
 	}
 	
 	

@@ -1,16 +1,16 @@
-package edu.cta.academy.mscursos.entity;
+package edu.cta.academy.comun.entity;
 
-import javax.persistence.ParameterMode;
-import javax.persistence.PrePersist;
+
 import javax.persistence.Table;
-import javax.persistence.Column;
+import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,6 +32,16 @@ public class Curso {
 	@NotBlank
 	private String nombre;
 	
-	//Añadir relación con cursos
+	@OneToMany (fetch = FetchType.LAZY)
+	private List<Alumno>listaAlumnos;
+	
+	public void addAlumno (Alumno alumno) {
+		this.listaAlumnos.add(alumno);
+	}
+	
+	public void eliminarAlumno (Alumno alumno) {
+		this.listaAlumnos.remove(alumno);
+	}
+	
 
 }

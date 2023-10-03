@@ -1,5 +1,6 @@
 package edu.cta.academy.mscursos.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
@@ -7,7 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import edu.cta.academy.mscursos.entity.Curso;
+import edu.cta.academy.comun.entity.Alumno;
+import edu.cta.academy.comun.entity.Curso;
 import edu.cta.academy.mscursos.repo.CursoRepository;
 
 @Service
@@ -63,5 +65,27 @@ public class CursoServiceImpl implements CursoService{
 		
 		return optional;
 	}
+
+	@Override
+	public Optional<Curso> asignarAlumnos(List<Alumno> alumnos, Long id) {
+		
+		Optional<Curso> oc = Optional.empty();
+		oc = this.cursoRepository.findById(id);
+		 
+		if(oc.isPresent()) {
+			 Curso curso_leido = oc.get();
+			 alumnos.forEach(a -> curso_leido.addAlumno(a));
+			 oc = Optional.of(curso_leido);
+		}	 
+		 
+		return oc;
+	}
+
+	@Override
+	public Optional<Curso> eliminarAlumno(Alumno alumno, Long id) {
+		// TODO Auto-generated method stub
+		return Optional.empty();
+	}
+
 
 }

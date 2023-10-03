@@ -1,8 +1,10 @@
 package edu.cta.academy.mscursos.service;
 
+import java.util.List;
 import java.util.Optional;
 
-import edu.cta.academy.mscursos.entity.Curso;
+import edu.cta.academy.comun.entity.Alumno;
+import edu.cta.academy.comun.entity.Curso;
 
 public interface CursoService {
 	
@@ -21,5 +23,8 @@ public interface CursoService {
 	//updateById
 	Optional<Curso> modificarPorId (Curso curso, Long id);
 	
+	Optional <Curso> asignarAlumnos (List<Alumno> alumnos, Long id);
+	
+	Optional<Curso> eliminarAlumno (Alumno alumno, Long id);
 
 }

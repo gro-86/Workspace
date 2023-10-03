@@ -35,9 +35,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
-import edu.cta.academy.alumnos.entity.Alumno;
 import edu.cta.academy.alumnos.model.FraseChiquito;
 import edu.cta.academy.alumnos.service.AlumnoService;
+import edu.cta.academy.comun.entity.Alumno;
 
 /**
  * Recibe y contesta a las peticiones de los clientes

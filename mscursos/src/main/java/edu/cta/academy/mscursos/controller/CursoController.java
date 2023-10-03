@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import edu.cta.academy.mscursos.entity.Curso;
+import edu.cta.academy.comun.entity.Alumno;
+import edu.cta.academy.comun.entity.Curso;
+import edu.cta.academy.mscursos.controller.CursoController;
 import edu.cta.academy.mscursos.service.CursoService;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -34,6 +36,9 @@ import org.springframework.web.bind.annotation.RestController;
 @CrossOrigin(originPatterns = {"*"}, methods = {RequestMethod.GET,RequestMethod.POST,RequestMethod.DELETE,RequestMethod.PUT}) 
 @RequestMapping("/curso")
 public class CursoController {
+	
+	Logger logger = LoggerFactory.getLogger(CursoController.class); // Instancia de log
+
 	
 	@Autowired
 	CursoService cursoService;
@@ -100,6 +105,7 @@ public class CursoController {
 		return responseEntity;
 	}
 	
+	@GetMapping("/{id}")
 	public ResponseEntity<?> listarCursosPorId(@PathVariable Long id) {
 
 		Optional<Curso> oc = null; //
@@ -115,6 +121,20 @@ public class CursoController {
 		}
 
 		return responseEntity;
+	}
+	
+	//PUT
+	@PutMapping("/agregarAlumnos/{idCurso}")
+	public ResponseEntity<?> asignarAlumnos(@RequestBody List<Alumno> alumnos,@PathVariable Long idCurso) {
+
+		ResponseEntity<?> resp = null;
+		var curso_modificado =this.cursoService.asignarAlumnos(alumnos, idCurso);
+		if (curso_modificado.isPresent()) {
+			resp = ResponseEntity.ok(curso_modificado.get());
+		} else {
+			resp = ResponseEntity.notFound().build();
+		}
+		return resp;
 	}
 
 }
