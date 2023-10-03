@@ -173,7 +173,7 @@ public class Alumno {
 	public boolean equals(Object obj) {
 		boolean iguales = true;
 		/** Pattern-matching. Si se cumple el instance of, hace el casting automáticamente
-		 * de object a Alumno en
+		 * de object a Alumno en a
 		 * */
 		if(this == obj) { 
 			iguales = true;

@@ -83,8 +83,17 @@ public class CursoServiceImpl implements CursoService{
 
 	@Override
 	public Optional<Curso> eliminarAlumno(Alumno alumno, Long id) {
-		// TODO Auto-generated method stub
-		return Optional.empty();
+		Optional<Curso> oc = Optional.empty();
+		
+		oc = this.cursoRepository.findById(id);
+		 
+		if(oc.isPresent()) {
+			 Curso curso_leido = oc.get();
+			 curso_leido.eliminarAlumno(alumno);
+			 oc = Optional.of(curso_leido);
+		}	 
+		
+		return oc;
 	}
 
 

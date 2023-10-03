@@ -128,7 +128,21 @@ public class CursoController {
 	public ResponseEntity<?> asignarAlumnos(@RequestBody List<Alumno> alumnos,@PathVariable Long idCurso) {
 
 		ResponseEntity<?> resp = null;
-		var curso_modificado =this.cursoService.asignarAlumnos(alumnos, idCurso);
+		var curso_modificado = this.cursoService.asignarAlumnos(alumnos, idCurso);
+		if (curso_modificado.isPresent()) {
+			resp = ResponseEntity.ok(curso_modificado.get());
+		} else {
+			resp = ResponseEntity.notFound().build();
+		}
+		return resp;
+	}
+	
+	//PUT
+	@PutMapping("/borrarAlumno/{idCurso}")
+	public ResponseEntity<?> borrarAlumno(@RequestBody Alumno alumno,@PathVariable Long idCurso) {
+
+		ResponseEntity<?> resp = null;
+		var curso_modificado = this.cursoService.eliminarAlumno(alumno, idCurso);
 		if (curso_modificado.isPresent()) {
 			resp = ResponseEntity.ok(curso_modificado.get());
 		} else {
