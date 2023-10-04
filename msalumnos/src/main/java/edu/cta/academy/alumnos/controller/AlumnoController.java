@@ -38,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 import edu.cta.academy.alumnos.model.FraseChiquito;
 import edu.cta.academy.alumnos.service.AlumnoService;
 import edu.cta.academy.comun.entity.Alumno;
+import edu.cta.academy.comun.entity.Curso;
 
 /**
  * Recibe y contesta a las peticiones de los clientes
@@ -112,7 +113,7 @@ public class AlumnoController {
 		return responseEntity;
 	}
 
-	// Get
+	//Get
 	@GetMapping // http://localhost:8085/alumno
 	public ResponseEntity<?> listarAlumnos() {
 		// ? Devuelve cualquier cosa. En realidad es un iterable
@@ -438,6 +439,25 @@ public class AlumnoController {
 		}
 
 		return responseEntity;
-}
+	}
+	
+	// GetById
+	@GetMapping("/obtenerCursoAlumnoPorFeign/{id}") // http://localhost:8085/alumno/obtenerCursoAlumnoPorFeign/5
+	public ResponseEntity<?> obtenerCursoAlumnoPorFeign(@PathVariable Long id) {
+
+		Optional<Curso> oc = null; 
+		ResponseEntity<?> responseEntity = null;
+		oc = this.alumnoService.obtenerCursoAlumno(id);
+		
+		if (oc.isEmpty()) {
+			responseEntity = ResponseEntity.noContent().build(); 
+		} else {
+			
+			Curso curso_leido = oc.get();
+			responseEntity = ResponseEntity.ok(curso_leido);
+		}
+
+		return responseEntity;
+	}
 
 }

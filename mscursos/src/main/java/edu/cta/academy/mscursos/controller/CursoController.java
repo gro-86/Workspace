@@ -77,18 +77,17 @@ public class CursoController {
 	}
 	
 	// Delete
-	
-		@DeleteMapping("/{id}") // http://localhost:8086/curso/5
-		public ResponseEntity<?> borrarAlumno(@PathVariable Long id) {
+	@DeleteMapping("/{id}") // http://localhost:8086/curso/5
+	public ResponseEntity<?> borrarAlumno(@PathVariable Long id) {
 
-			String saludo = null;
-			saludo.length();
-			ResponseEntity<?> responseEntity = null;
-			this.cursoService.borrarCursoPorId(id);
-			responseEntity = ResponseEntity.status(HttpStatus.OK).build();
+		String saludo = null;
+		saludo.length();
+		ResponseEntity<?> responseEntity = null;
+		this.cursoService.borrarCursoPorId(id);
+		responseEntity = ResponseEntity.status(HttpStatus.OK).build();
 
-			return responseEntity;
-		}
+		return responseEntity;
+	}
 	
 	//Get
 	@GetMapping // http://localhost:8085/curso
@@ -103,6 +102,27 @@ public class CursoController {
 		responseEntity = ResponseEntity.ok(ita);
 
 		return responseEntity;
+	}
+
+	//Get
+	@GetMapping("/obtenerCursoIdAlumno/{id}") // http://localhost:8085/curso/obtenerCursosIdAlumno/2
+	public ResponseEntity<?> obtenerCursosIdAlumno(@PathVariable Long id) {
+	
+		Optional<Curso> oc = null; //
+		ResponseEntity<?> responseEntity = null;
+		oc = this.cursoService.obtenerCursoAlumnoNativa(id);
+		
+		if (oc.isEmpty()) {
+			responseEntity = ResponseEntity.noContent().build();
+		} else {
+			
+			Curso curso_leido = oc.get();
+			responseEntity = ResponseEntity.ok(curso_leido);
+		}
+
+		return responseEntity;
+		
+	
 	}
 	
 	@GetMapping("/{id}")

@@ -74,7 +74,9 @@ public class CursoServiceImpl implements CursoService{
 		 
 		if(oc.isPresent()) {
 			 Curso curso_leido = oc.get();
-			 alumnos.forEach(a -> curso_leido.addAlumno(a));
+			 //alumnos.forEach(a -> curso_leido.addAlumno(a));
+			 //METHOD REFERENCE
+			 alumnos.forEach(curso_leido::addAlumno);
 			 oc = Optional.of(curso_leido);
 		}	 
 		 
@@ -94,6 +96,12 @@ public class CursoServiceImpl implements CursoService{
 		}	 
 		
 		return oc;
+	}
+
+	@Override
+	public Optional<Curso> obtenerCursoAlumnoNativa(Long id_alumno) {
+		
+		return this.cursoRepository.obtenerCursoAlumnoNativa(id_alumno);
 	}
 
 

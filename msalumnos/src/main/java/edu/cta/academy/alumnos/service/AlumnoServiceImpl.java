@@ -3,6 +3,9 @@ package edu.cta.academy.alumnos.service;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,9 +14,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import edu.cta.academy.alumnos.cliente.CursoFeignClient;
 import edu.cta.academy.alumnos.model.FraseChiquito;
 import edu.cta.academy.alumnos.repository.AlumnoRepository;
 import edu.cta.academy.comun.entity.Alumno;
+import edu.cta.academy.comun.entity.Curso;
 
 /**
  * Realiza las tareas de aplicacion
@@ -22,6 +27,13 @@ import edu.cta.academy.comun.entity.Alumno;
 
 @Service
 public class AlumnoServiceImpl implements AlumnoService{
+	
+	@PersistenceContext
+	EntityManager em;
+	
+	/**Usamos este objeto para saber a qué curso pertenece un alumno.*/
+	@Autowired
+	CursoFeignClient cursoFeignClient;
 
 	@Autowired //El alumnoRepository instanciado por spring, se queda en la variable.
 	AlumnoRepository alumnoRepository;
@@ -146,6 +158,15 @@ public class AlumnoServiceImpl implements AlumnoService{
 		restTemplate = new RestTemplate();
 		frase = restTemplate.getForObject("https://chiquitadas.es/api/quotes/avoleorrr", FraseChiquito.class);
 		oc = Optional.of(frase);
+		
+		return oc;
+	}
+
+	@Override
+	public Optional<Curso> obtenerCursoAlumno(Long idAlumno) {
+		
+		Optional<Curso>oc = Optional.empty();
+		oc = this.cursoFeignClient.obtenerCursoAlumno(idAlumno);
 		
 		return oc;
 	}

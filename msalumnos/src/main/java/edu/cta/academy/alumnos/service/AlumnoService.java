@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 import edu.cta.academy.alumnos.model.FraseChiquito;
 import edu.cta.academy.comun.entity.Alumno;
+import edu.cta.academy.comun.entity.Curso;
 
 //Define lo que hacemos
 public interface AlumnoService {
@@ -49,6 +50,8 @@ public interface AlumnoService {
 	
 	//NOTA: No se define la función de la API de chiquito aquí
 	Optional<FraseChiquito>obtenerFraseAleatoriaChiquito();
+	
+	Optional<Curso>obtenerCursoAlumno(Long idAlumno);
 	
 	
 }

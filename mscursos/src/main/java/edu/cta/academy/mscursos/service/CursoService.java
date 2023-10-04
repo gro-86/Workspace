@@ -26,5 +26,7 @@ public interface CursoService {
 	Optional <Curso> asignarAlumnos (List<Alumno> alumnos, Long id);
 	
 	Optional<Curso> eliminarAlumno (Alumno alumno, Long id);
+	
+	Optional<Curso>obtenerCursoAlumnoNativa(Long id_alumno);
 
 }

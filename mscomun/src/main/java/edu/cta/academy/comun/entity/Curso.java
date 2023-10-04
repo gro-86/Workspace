@@ -12,6 +12,8 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,6 +35,7 @@ public class Curso {
 	private String nombre;
 	
 	@OneToMany (fetch = FetchType.LAZY)
+	//@JsonIgnore
 	private List<Alumno>listaAlumnos;
 	
 	public void addAlumno (Alumno alumno) {
