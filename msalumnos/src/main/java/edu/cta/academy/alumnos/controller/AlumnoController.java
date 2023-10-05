@@ -8,6 +8,8 @@ import java.util.Optional;
 
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 import javax.validation.Valid;
 
@@ -124,6 +126,30 @@ public class AlumnoController {
 		/**
 		 * var nombre = "HOLA"; nombre.charAt(4);
 		 */
+		logger.debug("ATENDIDO POR "+ nombre_instancia + " PUERTO "+environment.getProperty("local.server.port"));
+		ita = this.alumnoService.consultarTodos();
+		responseEntity = ResponseEntity.ok(ita);
+
+		return responseEntity;
+	}
+	
+	//Get
+	@GetMapping("/hateoas") // http://localhost:8085/alumno/hateoas
+	public ResponseEntity<?> listarAlumnosHateoas() {
+		// ? Devuelve cualquier cosa. En realidad es un iterable
+		// ResponseEntity representa el mensaje HTTP de respuesta
+		Iterable<Alumno> ita = null; // Lista de alumnos
+
+		ResponseEntity<?> responseEntity = null;
+		/**
+		 * var nombre = "HOLA"; nombre.charAt(4);
+		 */
+		
+		for (Alumno a :ita)
+		{
+			a.add(linkTo(methodOn(AlumnoController.class).listarAlumnosPorId(a.getId())).withSelfRel());
+		}
+		
 		logger.debug("ATENDIDO POR "+ nombre_instancia + " PUERTO "+environment.getProperty("local.server.port"));
 		ita = this.alumnoService.consultarTodos();
 		responseEntity = ResponseEntity.ok(ita);

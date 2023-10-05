@@ -21,6 +21,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.NamedStoredProcedureQuery;
@@ -40,7 +42,7 @@ import javax.persistence.StoredProcedureParameter;
 			})
 		}
 		)
-public class Alumno {
+public class Alumno extends RepresentationModel<Alumno> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //Autoincremento de ID en Mysql
